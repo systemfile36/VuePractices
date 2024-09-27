@@ -13,7 +13,7 @@
       <span>{{ movie.like }}</span>
     <br/>
       <button 
-        @click="$emit('openModal', i)">상세보기</button>
+        @click="$emit('openModal', movie)">상세보기</button>
     </div>
   </div>
 </div>

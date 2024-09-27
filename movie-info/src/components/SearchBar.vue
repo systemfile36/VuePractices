@@ -16,6 +16,7 @@ export default {
         }
     },
     watch: {
+        /*
         inputText(newValue) {
             const result = this.movies.filter(movie => {
                 return movie.title.toLowerCase().includes(newValue.toLowerCase());
@@ -25,14 +26,17 @@ export default {
                 alert("결과를 찾을 수 없습니다!");
             }
         }
+        */
     }, 
     methods: {
         changeHandler(event) {
             this.inputText = event.target.value;
+            //send inputText to App.vue by $emit
+            this.$emit('searchMovie', this.inputText); 
         }
     },
     props: {
-        movies: Array,
+        //movies: Array,
     }
     
 }

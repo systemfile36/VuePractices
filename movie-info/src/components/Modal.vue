@@ -1,7 +1,7 @@
 <template>
   <div class="modal" v-if="isModal" @click="$emit('closeModal')">
     <div class="inner">
-      <h3>{{ movies[selectedIndex].title }}</h3>
+      <h3>{{ selectedMovie.title }}</h3>
       <p>영화 상세정보</p>
       <button @click="$emit('closeModal')">닫기</button>
     </div>
@@ -13,7 +13,7 @@ export default {
     props: {
         movies: Array,
         isModal: Boolean,
-        selectedIndex: Number,
+        selectedMovie: Object,
     }
 }
 </script>

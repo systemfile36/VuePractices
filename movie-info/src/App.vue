@@ -1,16 +1,22 @@
 <template>
   <Navbar/>
-  <Event text="예시용으로 넘기는 텍스트"/>
-  <SearchBar :movies="movies"/>
+  <Event :text="text[eventTextIndex]"/>
+  <SearchBar 
+    @searchMovie="searchMovieHandler($event)"/>
+
+  <div style="display: flex;justify-content: center;">
+    <button @click="showAllMovie">전체 보기</button>
+  </div>
+  
   <Movies 
-    :movies="movies"
-    @openModal="isModal=true; selectedIndex=$event"
+    :movies="movies_temp"
+    @openModal="openModalHandler($event)"
     @increaseLike="increaseLike($event)"/>
 
   <Modal 
     :movies="movies" 
     :isModal="isModal" 
-    :selectedIndex="selectedIndex"
+    :selectedMovie="selectedMovie"
     @closeModal="isModal=false"
   />
 </template>
@@ -29,12 +35,41 @@ export default {
     return {
       isModal: false,
       movies,
-      selectedIndex: 0,
+      movies_temp: [...movies],
+      selectedMovie: movies[0],
+      text: [
+        'NETPLOX 드라마 흑O요리사 방영중',
+        '희대의 역작 콘코드 고평가...',
+        '성공하면 혁명, 실패하면 반역, 서울의 봄'
+      ],
+      eventTextIndex: 0,
+      interval: null,
     }
   },
   methods: {
     increaseLike(movie) {
       movie.like++;
+    },
+
+    openModalHandler(movie) {
+      this.isModal = true;
+      this.selectedMovie = movie;
+    },
+
+    searchMovieHandler(title) {
+      const result = this.movies.filter(movie => {
+                return movie.title.toLowerCase().includes(title.toLowerCase());
+            });
+      if(result.length <= 0) {
+        alert("결과를 찾을 수 없습니다.!");
+      } else {
+        this.movies_temp = result;
+      }
+    },
+
+    showAllMovie() {
+      //copy movies to movies_temp
+      this.movies_temp = [...this.movies]
     }
   },
   components: {
@@ -43,6 +78,17 @@ export default {
     Modal: Modal,
     Movies: Movies,
     SearchBar: SearchBar,
+  },
+  mounted() {
+    
+    this.interval = setInterval(()=>{
+      this.eventTextIndex = 
+        (this.eventTextIndex + 1) % this.text.length;
+    }, 3000);
+  }, 
+  unmounted() {
+    //인터벌 해제
+    clearInterval(this.interval);
   }
 }
 </script>
