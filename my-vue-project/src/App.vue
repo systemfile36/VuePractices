@@ -1,30 +1,66 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
+  <NavBar :bgColor="bgColor"/>
+  <div class="default">
+    <h1>Test</h1>
+    <button @click="countHandler">Count</Button>
+    <p>{{ count }}</p>
   </div>
-  <HelloWorld msg="Vite + Vue" />
 </template>
 
+<script setup>
+  import { ref, onMounted, onUnmounted, watch } from 'vue'
+  import NavBar from './components/NavBar.vue'
+
+  let interval = null;
+
+  let count = ref(0);
+
+  let bgColor = ref('red');
+
+  let colors = [
+    "red", "green", "blue"
+  ]
+  let colors_index = 0;
+
+  function changeBgColor() {
+      bgColor.value = colors[colors_index];
+      colors_index = (colors_index + 1) % colors.length;
+  }
+
+  function countHandler() {
+    count.value++;
+    console.clear();
+    console.log(count.value);
+  }
+
+  onMounted(()=>{
+    console.log('mounted');
+    interval = setInterval(()=>{
+      changeBgColor();
+    }, 3000);
+  })
+
+  onUnmounted(()=>{
+    clearInterval(interval);
+  })
+
+  watch(bgColor, ()=>{
+    console.log(`bgColor change to ${bgColor.value}`);
+  })
+
+</script>
+
 <style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
-}
+
+  .default {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .default * {
+    padding: 10px;
+    margin: 10px;
+  }
 </style>
