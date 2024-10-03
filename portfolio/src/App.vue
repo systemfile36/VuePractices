@@ -1,16 +1,13 @@
 <script setup>
-import { ref } from 'vue'
+import { onMounted } from 'vue'
 import NavBar from './components/NavBar.vue'
-import data from './assets/portfolio'
+import { useMainStore } from './stores/main';
 
-let isDark = ref(false);
+const store = useMainStore();
 
-function toggleDarkHandler() {
-  isDark.value = !isDark.value;
-  var html = document.querySelector('html');
-  var mode = isDark.value ? 'dark' : 'light';
-  html.setAttribute('data-bs-theme', mode);
-}
+onMounted(()=>{
+  store.setDarkMode(store.isDarkMode());
+})
 
 
 
@@ -18,12 +15,9 @@ function toggleDarkHandler() {
 
 <template>
 
-<NavBar 
-@toggleDarkMode="toggleDarkHandler"/>
+<NavBar/>
 
-<router-view 
-:data="data"
-@toggleDarkMode="toggleDarkHandler"/>
+<router-view/>
 
 </template>
 

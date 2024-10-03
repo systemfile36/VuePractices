@@ -6,4 +6,9 @@ import 'bootstrap/dist/js/bootstrap.bundle.js'
 
 import router from './router/router'
 
-createApp(App).use(router).mount('#app')
+//import pinia for state management
+import { createPinia } from 'pinia'
+
+const pinia = createPinia();
+
+createApp(App).use(router).use(pinia).mount('#app')

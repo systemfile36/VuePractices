@@ -10,13 +10,15 @@
         </div>
       </div>
       <div class="row align-items-center">
-        <button class="btn btn-primary" @click="$emit('toggleDarkMode')">Toggle Dark Theme</button>
+        <button class="btn btn-primary" @click="store.onToggleDarkMode">Toggle Dark Theme</button>
       </div>
     </div>
   </section>
 </template>
-<script>
+<script setup>
+import { useMainStore } from '../stores/main';
 
+const store = useMainStore();
 
 </script>
 <style scoped lang="scss">

@@ -18,7 +18,7 @@
                     </li>
                 </ul>
                 <div class="pb-2">
-                    <button class="btn btn-outline-success" @click="$emit('toggleDarkMode')">Toggle Dark</button>
+                    <button class="btn btn-outline-success" @click="store.onToggleDarkMode">Toggle Dark</button>
                 </div>
       
                 <form class="d-flex" role="search">
@@ -31,6 +31,9 @@
     </nav>
 </template>
 <script setup>
+import { useMainStore } from '../stores/main';
+
+const store = useMainStore();
 
 </script>
 <style>

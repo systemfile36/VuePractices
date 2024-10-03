@@ -2,7 +2,7 @@
     <section id="portfolio" class="container">
         <h1>Portfolio</h1>
         <ul class="list row">
-            <li class="col-md-4" v-for="(pf, i) in data" :key="pf.id">
+            <li class="col-md-4" v-for="(pf) in portfolio" :key="pf.id">
                 <img :src="pf.imgUrl" :alt="pf.id"/>
                 <h3>{{ pf.title }}</h3>
                 <p>{{ pf.desc }}</p>
@@ -14,11 +14,16 @@
     </section>
 </template>
 <script setup>
-import data from '../assets/portfolio.js'
+import { useMainStore } from '../stores/main'
+import { storeToRefs } from 'pinia';
 
-const props = defineProps({
-  data: Array,
-})
+import { onMounted } from 'vue';
+
+const store = useMainStore();
+
+//Destructive 문법으로 store의 상태 변수를 reactive로 가져옴
+const {portfolio} = storeToRefs(store);
+
 </script>
 <style scoped lang="scss">
     #portfolio {
